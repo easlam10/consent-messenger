@@ -1,4 +1,6 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const sendTemplateMessage = async () => {
   const phoneNumberId = '704538612744489'; // From Meta dashboard
