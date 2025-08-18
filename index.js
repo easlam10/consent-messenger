@@ -15,7 +15,7 @@ const sendTemplateMessage = async () => {
         to: toNumber,
         type: "template",
         template: {
-          name: "ragzon_alerts",
+          name: "kips_notifications_settings",
           language: {
             code: "en_US"
           }
