@@ -2,10 +2,9 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const sendTemplateMessage = async () => {
+const sendTemplateMessage = async (toNumber) => {
   const phoneNumberId = '704538612744489'; // From Meta dashboard
-  const toNumber = process.env.RECIEVER_NUMBER; // Recipient number
-  const accessToken = 'EAATrndy9e08BPI5tgY3Qs9Hk87u78Ula93Pwu2RAZBPiEwwmBj2mfZAcjbhJrcgbkdmUnLRBmvorgUR34hgcDykQZBwcBZB61lOBZBTDTHZBqw1V6l92qv9BcmHRHQSm3CsgL19ag7wseb0se6teMWdi6gPY30ZCaIZAYtlmIWZCeuENb0BvwJ1Qy3S0FJFa7FTpkVAZDZD'; // System user access token
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN; // better to keep in .env
 
   try {
     const response = await axios.post(
@@ -29,10 +28,18 @@ const sendTemplateMessage = async () => {
       }
     );
 
-    console.log('Message sent successfully:', response.data);
+    console.log(`Message sent successfully to ${toNumber}:`, response.data);
   } catch (error) {
-    console.error('Error sending message:', error.response?.data || error.message);
+    console.error(`Error sending message to ${toNumber}:`, error.response?.data || error.message);
   }
 };
 
-sendTemplateMessage();
+const numbers = [
+  process.env.RECIEVER_NUMBER_1,
+  process.env.RECIEVER_NUMBER_2
+];
+
+// loop through both numbers
+numbers.forEach(number => {
+  if (number) sendTemplateMessage(number);
+});
