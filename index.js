@@ -2,16 +2,17 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const sendTemplateMessage = async (toNumber) => {
+const sendTemplateMessage = async () => {
   const phoneNumberId = '704538612744489'; // From Meta dashboard
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN; // better to keep in .env
+  const number = process.env.RECIEVER_NUMBER_1;
 
   try {
     const response = await axios.post(
       `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
       {
         messaging_product: "whatsapp",
-        to: toNumber,
+        to: number,
         type: "template",
         template: {
           name: "kips_notifications_settings",
@@ -28,18 +29,11 @@ const sendTemplateMessage = async (toNumber) => {
       }
     );
 
-    console.log(`Message sent successfully to ${toNumber}:`, response.data);
+    console.log(`Message sent successfully to ${number}:`, response.data);
   } catch (error) {
-    console.error(`Error sending message to ${toNumber}:`, error.response?.data || error.message);
+    console.error(`Error sending message to ${number}:`, error.response?.data || error.message);
   }
 };
 
-const numbers = [
-  process.env.RECIEVER_NUMBER_1,
-  process.env.RECIEVER_NUMBER_2
-];
+sendTemplateMessage();
 
-// loop through both numbers
-numbers.forEach(number => {
-  if (number) sendTemplateMessage(number);
-});
