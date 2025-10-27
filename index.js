@@ -2,10 +2,11 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const sendTemplateMessage = async () => {
+console.log('WhatsApp message script starting...');
+
+const sendTemplateMessage = async (number) => {
   const phoneNumberId = '704538612744489'; // From Meta dashboard
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN; // better to keep in .env
-  const number = process.env.RECIEVER_NUMBER_1;
 
   try {
     const response = await axios.post(
@@ -35,5 +36,18 @@ const sendTemplateMessage = async () => {
   }
 };
 
-sendTemplateMessage();
+const sendMessagesToAllNumbers = async () => {
+  const numbers = [
+    process.env.RECIEVER_NUMBER_1,
+    process.env.RECIEVER_NUMBER_2
+  ];
+
+  for (const number of numbers) {
+    if (number) {
+      await sendTemplateMessage(number);
+    }
+  }
+};
+
+sendMessagesToAllNumbers();
 
